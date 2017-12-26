@@ -1,0 +1,51 @@
+<VirtualHost *:80>
+
+	# Jopa - 05/12/2015
+	# Site www.littlebigdatacompany.fr (Laurent C.)
+	# Ref. - 010
+
+	ServerName www.littlebigdatacompany.fr
+	ServerAlias littlebigdatacompany.fr *.littlebigdatacompany.fr
+	ServerAdmin laurent.colombier@gmail.com
+	
+	DocumentRoot /var/www/lbdc
+
+	<Directory />
+		Options FollowSymLinks
+		AllowOverride  All
+	</Directory>
+
+	<Directory "/var/www/lbdc">
+		Options FollowSymLinks
+		AllowOverride All
+	</Directory>
+
+
+	#---------------------------------------------------------
+	### Redirections sur le site en fonction de la langue 
+	#---------------------------------------------------------
+	RewriteEngine on
+	
+	# Langue du navigateur en Français
+ 	RewriteCond %{HTTP:Accept-Language} ^fr [NC]
+  	RewriteRule "^/$" "/fr/"  [L,R=301]
+
+	# Langue du navigateur en Anglais
+ 	RewriteCond %{HTTP:Accept-Language} ^en [NC]
+  	RewriteRule "^/$" "/en/"  [L,R=301]
+
+	# Langue par défaut
+  	RewriteRule "^/$" "/fr/"  [L,R=301]
+
+	#---------------------------------------------------------
+
+	ErrorLog /var/log/apache2/error-ldbc.log
+
+	# Possible values include: debug, info, notice, warn, error, crit,
+	# alert, emerg.
+	LogLevel error
+
+	CustomLog /var/log/apache2/access-ldbc.log combined
+	ServerSignature On
+
+</VirtualHost>
