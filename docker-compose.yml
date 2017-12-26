@@ -1,0 +1,46 @@
+version: '3'
+
+services:
+   db_fr:
+     image: mysql:5.7
+     #deploy:
+     #   replicas: 1
+     #volumes:
+     #  - db_data:/var/lib/mysql
+     environment:
+       MYSQL_ROOT_PASSWORD: DockerWordpress 
+       MYSQL_DATABASE: ldbc_fr 
+       MYSQL_USER: lbdc
+       MYSQL_PASSWORD: tomtom03xx
+   
+   wordpress_fr:
+     depends_on:
+       - db_fr
+     image: lbdcwp
+     #deploy:
+     #   replicas: 1
+     ports:
+       - "8081:80"
+     #volumes:
+     #  - html_data:/var/www/html
+     environment:
+       WORDPRESS_DB_HOST: db_fr:3306
+       WORDPRESS_DB_NAME: ldbc_fr 
+       WORDPRESS_DB_USER: lbdc
+       WORDPRESS_DB_PASSWORD: tomtom03xx
+
+#volumes:
+#    db_data:
+#      driver: local
+#      driver_opts:
+#        type: nfs
+#        o: addr=192.168.2.210,rw,nolock,soft
+#        device: ":/volume1/DATA/DOCKER/Volumes/wp/mysql"
+
+#    html_data:
+#      driver: local
+#      driver_opts:
+#        type: nfs
+#        o: addr=192.168.2.210,rw,nolock,soft
+#        device: ":/volume1/DATA/DOCKER/Volumes/wp/html"
+
